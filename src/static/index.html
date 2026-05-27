@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,13 +12,28 @@
     />
   </head>
   <body>
-     <div class="announcement-banner">
-        📢 As inscrições para atividades estão abertas até o final do mês. Não perca sua vaga!
+    <div id="announcement-banner" class="announcement-banner hidden" role="status" aria-live="polite">
+      <div class="announcement-banner-content">
+        <span class="announcement-icon" aria-hidden="true">📢</span>
+        <div class="announcement-text-content">
+          <p id="announcement-message"></p>
+          <small id="announcement-validity"></small>
+        </div>
+      </div>
     </div>
     <header>
       <h1>Mergington High School</h1>
       <h2>Atividades Extracurriculares</h2>
       <div id="user-controls">
+        <button
+          id="manage-announcements-button"
+          class="icon-button hidden"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="announcement-modal"
+        >
+          📣 Gerenciar anúncios
+        </button>
         <div id="user-status">
           <button id="login-button" class="icon-button">
             <span class="user-icon">👤</span>
@@ -134,6 +149,49 @@
           <button type="submit">Entrar</button>
         </form>
         <div id="login-message" class="hidden message"></div>
+      </div>
+    </div>
+
+    <!-- Announcement Management Modal -->
+    <div id="announcement-modal" class="modal hidden" role="dialog" aria-labelledby="announcement-modal-title">
+      <div class="modal-content announcement-modal-content">
+        <span class="close-announcement-modal" aria-label="Fechar">&times;</span>
+        <h3 id="announcement-modal-title">Gerenciamento de anúncios</h3>
+        <p class="modal-subtitle">Crie, edite e remova mensagens exibidas no topo da página.</p>
+
+        <form id="announcement-form" class="announcement-form">
+          <input type="hidden" id="announcement-id" />
+          <div class="form-group">
+            <label for="announcement-message-input">Mensagem do anúncio:</label>
+            <textarea
+              id="announcement-message-input"
+              required
+              maxlength="500"
+              rows="3"
+              placeholder="Ex: Feira de ciências com inscrições abertas até sexta-feira."
+            ></textarea>
+          </div>
+          <div class="announcement-dates-grid">
+            <div class="form-group">
+              <label for="announcement-starts-at">Início (opcional):</label>
+              <input type="datetime-local" id="announcement-starts-at" />
+            </div>
+            <div class="form-group">
+              <label for="announcement-expires-at">Expiração (obrigatório):</label>
+              <input type="datetime-local" id="announcement-expires-at" required />
+            </div>
+          </div>
+          <div class="announcement-form-actions">
+            <button id="announcement-save-button" type="submit">Salvar anúncio</button>
+            <button id="announcement-cancel-edit" type="button" class="cancel-btn hidden">Cancelar edição</button>
+          </div>
+        </form>
+
+        <div class="announcement-list-header">
+          <h4>Anúncios cadastrados</h4>
+          <span id="announcement-list-summary"></span>
+        </div>
+        <div id="announcement-list" class="announcement-list"></div>
       </div>
     </div>
 
